@@ -107,6 +107,14 @@
   cursor: not-allowed;
 }
 
+[data-theme="light"] .mode-btn:disabled {
+  opacity: 1;
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
 .empty-estimate {
   flex: 1;
   display: flex;
