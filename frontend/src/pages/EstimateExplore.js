@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTrips } from '../context/TripsContext';
 import { Plane, Train, Car, Users, Map as MapIcon, ArrowRight, Check } from 'lucide-react';
 import api from '../services/api';
 import './EstimateExplore.css';
@@ -17,6 +18,7 @@ L.Icon.Default.mergeOptions({
 
 const EstimateExplore = () => {
   const navigate = useNavigate();
+  const { trips, addTrip } = useTrips();
   const [cities, setCities] = useState([]);
   
   const [startDate, setStartDate] = useState('');
@@ -102,50 +104,38 @@ const EstimateExplore = () => {
     };
   }, [fromCity, toCity, totalDays, travelMode, travelers]);
 
-  const handleCreateTrip = async () => {
+  const handleCreateTripFromEstimate = () => {
     if (!estimate) return;
-    try {
-      const payload = {
-        user_email: localStorage.getItem('userEmail'),
-        trip_name: `${fromCity.name} to ${toCity.name} Getaway`,
-        start_date: startDate,
-        end_date: endDate,
-        total_budget: Math.round(estimate.total),
-        currency: 'INR',
-        description: `Estimated trip for ${travelers} people traveling via ${travelMode}.`
-      };
-      
-      const response = await api.post('/trips', payload);
-      const tripId = response.data.id;
-      
-      // Optionally auto-add stops
-      await api.post(`/trips/${tripId}/stops`, {
-        city_id: fromCity.id,
-        city_name: fromCity.name,
-        day_number: 1,
-        arrival_date: startDate,
-        departure_date: startDate
-      });
-      
-      await api.post(`/trips/${tripId}/stops`, {
-        city_id: toCity.id,
-        city_name: toCity.name,
-        day_number: totalDays,
-        arrival_date: endDate,
-        departure_date: endDate
-      });
+    
+    const newTrip = {
+      id: `trip-${Date.now()}`,
+      title: `${toCity.name} Adventure`,
+      destination: toCity.name,
+      dates: `${startDate} - ${endDate}`,
+      status: 'Upcoming',
+      cost: `₹${Math.round(estimate.total).toLocaleString()}`,
+      image: toCity.image || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80',
+      collaborators: ['You'],
+      category: 'Trending',
+      stops: [
+        {
+          id: `stop-${Date.now()}`,
+          city: toCity.name,
+          dates: `${startDate} - ${endDate}`,
+          activities: [],
+          hotelBooked: false
+        }
+      ]
+    };
 
-      // Update budget breakdown
-      await api.put(`/trips/${tripId}/budget-update`, {
-        travel_cost: Math.round(estimate.transitCost),
-        stay_cost: Math.round(estimate.stayCost),
-        food_cost: Math.round(estimate.foodCost)
-      });
+    addTrip(newTrip);
+    navigate(`/trips/${newTrip.id}`);
+  };
 
-      navigate(`/trips/${tripId}`);
-    } catch (err) {
-      console.error('Failed to create trip from estimate', err);
-    }
+  const handleSaveAndReturn = () => {
+    // Persist in localStorage before back nav
+    localStorage.setItem('map_route_saved', JSON.stringify({ from: fromCityId, to: toCityId }));
+    setShowMapModal(false);
   };
 
   return (
@@ -265,7 +255,7 @@ const EstimateExplore = () => {
                 <button className="btn btn-secondary w-100 mb-3" onClick={() => setShowMapModal(true)}>
                   <MapIcon size={18}/> View Route Details
                 </button>
-                <button className="btn btn-primary w-100" onClick={handleCreateTrip}>
+                <button className="btn btn-primary w-100" onClick={handleCreateTripFromEstimate}>
                   <Check size={18}/> Create Trip from Estimate
                 </button>
               </div>
@@ -281,7 +271,14 @@ const EstimateExplore = () => {
 
       {showMapModal && estimate && (
         <div className="modal-overlay">
-          <div className="map-modal glass-panel">
+          <div className="map-modal glass-panel" style={{ position: 'relative' }}>
+            <button 
+              onClick={handleSaveAndReturn}
+              className="absolute top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-stone-200 dark:border-white/10 rounded-xl text-stone-800 dark:text-white shadow-lg hover:scale-105 transition-all"
+              style={{ position: 'absolute', top: '24px', left: '24px', zIndex: 1000, borderRadius: '12px', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', border: 'none' }}
+            >
+              <span>← Save & Return to Itinerary</span>
+            </button>
             <button className="close-btn" onClick={() => setShowMapModal(false)}>×</button>
             <div className="map-modal-content">
               <div className="map-container">

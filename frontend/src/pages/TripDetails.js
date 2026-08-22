@@ -1,4 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useTrips } from '../context/TripsContext';
 import { 
   Wallet, Map, CreditCard, MoreVertical, Plane, Train, 
   Car, Edit2, List, Grid, Plus, Trash2, Image as ImageIcon
@@ -16,11 +18,28 @@ const initialActivities = [
 ];
 
 const TripDetails = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { trips } = useTrips();
+  const trip = trips.find(t => String(t.id) === String(id));
+  
   const [activeTab, setActiveTab] = useState('itinerary');
-  const [activeStopId, setActiveStopId] = useState(1);
+  const [activeStopId, setActiveStopId] = useState(null);
   const [viewMode, setViewMode] = useState('list');
-  const [stops, setStops] = useState(initialStops);
-  const [activities, setActivities] = useState(initialActivities);
+  const [stops, setStops] = useState([]);
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    if (trip) {
+      setStops(trip.stops || initialStops);
+      setActivities(trip.activities || initialActivities);
+      if (trip.stops && trip.stops.length > 0) {
+        setActiveStopId(trip.stops[0].id);
+      } else {
+        setActiveStopId(initialStops[0].id);
+      }
+    }
+  }, [trip]);
 
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [editExpenseId, setEditExpenseId] = useState(null);
@@ -89,12 +108,16 @@ const TripDetails = () => {
     return acc;
   }, { 'Accommodation': 0, 'Transportation': 0, 'Food & Dining': 0, 'Activities': 0, 'Miscellaneous': 0 });
 
+  if (!trip) {
+    return <div className="trip-workspace"><h2 style={{padding: '40px'}}>Trip not found</h2></div>;
+  }
+
   return (
     <div className="trip-workspace">
       <div className="workspace-header">
         <div>
           <div className="breadcrumb-label">EDITING TRIP</div>
-          <h1 className="trip-title">Japan Adventure</h1>
+          <h1 className="trip-title">{trip.title}</h1>
         </div>
         <div className="live-cost-pill">
           <div className="live-cost-info">

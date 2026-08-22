@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Plane, TrendingUp, Calendar, MapPin, ArrowRight, Edit2 } from 'lucide-react';
 import { useTrips } from '../context/TripsContext';
+import { useLanguage } from '../context/LanguageContext';
 import './HomeDashboard.css';
 
 const HomeDashboard = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const user = localStorage.getItem('userEmail')?.split('@')[0] || 'Explorer';
   const { trips } = useTrips();
   const recentTrips = trips.slice(0, 2);
@@ -38,24 +40,24 @@ const HomeDashboard = () => {
         
         <div className="hero-section">
           <div className="hero-content">
-            <h1 className="hero-title">Wanderlust calls, <span className="gradient-text">{user}</span>!</h1>
+            <h1 className="hero-title">{t('wanderlustGreeting')} <span className="gradient-text">{user}</span>!</h1>
             <p className="hero-subtitle">The world is vast. Where to next?</p>
             <button className="btn btn-primary glowing-pill mt-4" onClick={() => navigate('/my-trips')}>
-              <Plane size={18} /> Plan New Trip
+              <Plane size={18} /> {t('planNewTrip')}
             </button>
           </div>
         </div>
 
         <div className="budget-widget glass-panel relative">
           <div className="widget-header">
-            <h3>Annual Budget</h3>
+            <h3>{t('annualBudget')}</h3>
             <button className="btn-icon" onClick={() => setShowBudgetModal(true)} style={{ color: 'var(--text-secondary)' }}>
               <Edit2 size={16} />
             </button>
           </div>
           <div className="widget-amount">
             <h2>{budgetData.currency}{budgetData.spent.toLocaleString()}</h2>
-            <span className="goal-text">Goal: {budgetData.currency}{budgetData.goal.toLocaleString()}</span>
+            <span className="goal-text">{t('goal')}: {budgetData.currency}{budgetData.goal.toLocaleString()}</span>
           </div>
           
           <div className="widget-progress">
@@ -63,8 +65,8 @@ const HomeDashboard = () => {
               <div className={`progress-bar ${progressStatus}`} style={{ width: `${progressPct}%` }}></div>
             </div>
             <div className="progress-meta">
-              <span className={`text-${progressStatus}`}>{progressPct}% Spent</span>
-              <span>{remainingText}</span>
+              <span className={`text-${progressStatus}`}>{progressPct}% {t('spent')}</span>
+              <span>{budgetData.spent > budgetData.goal ? t('overBudget') : `${Math.floor((budgetData.goal - budgetData.spent) / 50000)} ${t('tripsLeft')}`}</span>
             </div>
           </div>
         </div>
@@ -72,8 +74,8 @@ const HomeDashboard = () => {
 
       {/* Recent Trips */}
       <div className="section-header">
-        <h2>Recent Trips</h2>
-        <Link to="/my-trips" className="view-all-link">View all <ArrowRight size={16} /></Link>
+        <h2>{t('recentTrips')}</h2>
+        <Link to="/my-trips" className="view-all-link">{t('viewAll')} <ArrowRight size={16} /></Link>
       </div>
 
       <div className="trip-grid-rich">
@@ -108,7 +110,7 @@ const HomeDashboard = () => {
 
       {/* Recommended Destinations */}
       <div className="section-header" style={{ marginTop: '48px' }}>
-        <h2>Curated Destinations</h2>
+        <h2>{t('curatedDestinations')}</h2>
       </div>
       <div className="destinations-grid">
         <div className="dest-card" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=600&q=80')` }}>
