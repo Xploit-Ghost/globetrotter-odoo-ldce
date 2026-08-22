@@ -147,7 +147,34 @@ export const generateFullTrip = async (destination, dates, budget, currency, tra
           "bookingStatus": "Idea",
           "image": "A relevant unsplash photo URL"
         }
-      ]
+      ],
+      "prepChecklist": {
+        "weatherSummary": {
+          "expectedConditions": "String description of weather",
+          "seasonRisk": "String describing specific seasonal risks"
+        },
+        "packingAndFabrics": {
+          "recommendedMaterials": ["Array", "of", "strings"],
+          "avoidMaterials": ["Array", "of", "strings"],
+          "essentialGear": [
+            { "item": "Gear name", "checked": false }
+          ]
+        },
+        "documentation": {
+          "requirements": [
+            { "item": "Doc name", "notes": "Details", "checked": false }
+          ]
+        },
+        "healthAndMedicalAdvisories": {
+          "highRiskConditions": [
+            { "condition": "Condition name", "warning": "Warning text", "recommendation": "Rec text" }
+          ],
+          "generalTravelerRisks": [
+            { "risk": "Risk name", "preventativeAction": "Action text" }
+          ],
+          "recommendedVaccines": ["Array", "of", "vaccines"]
+        }
+      }
     }
     
     Make sure to generate ${pace === 'Action-Packed' ? '3' : pace === 'Balanced' ? '2' : '1'} activities per day. 
@@ -193,7 +220,8 @@ export const generateFullTrip = async (destination, dates, budget, currency, tra
         id: `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         stopId: stopId,
         actualCost: 0
-      }))
+      })),
+      prepChecklist: parsed.prepChecklist || generateMockPrepChecklist()
     };
   } catch (error) {
     console.error("Gemini API Error:", error);
@@ -245,13 +273,101 @@ const generateMockFullTrip = (destination, dates, budget, currency, travelers, p
             image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80'
           }
         ],
-        activities: generatedActivities
+        activities: generatedActivities,
+        prepChecklist: generateMockPrepChecklist()
       });
     }, 3000);
   });
 };
 
+const generateMockPrepChecklist = () => ({
+  weatherSummary: {
+    expectedConditions: "Humid subtropical, heavy monsoon showers (24°C–31°C)",
+    seasonRisk: "High UV index & sudden flash rain"
+  },
+  packingAndFabrics: {
+    recommendedMaterials: ["Quick-dry merino wool", "Breathable linen", "Gore-Tex waterproof shell"],
+    avoidMaterials: ["Heavy denim (slow to dry)", "Pure cotton base layers"],
+    essentialGear: [
+      { item: "Universal power adapter", checked: false },
+      { item: "Mosquito repellent (DEET 30%+)", checked: false },
+      { item: "Water purification tablets", checked: false }
+    ]
+  },
+  documentation: {
+    requirements: [
+      { item: "Passport", notes: "Must be valid for 6 months beyond stay", checked: false },
+      { item: "Tourist Visa", notes: "Check e-Visa requirements prior to arrival", checked: false }
+    ]
+  },
+  healthAndMedicalAdvisories: {
+    highRiskConditions: [
+      { condition: "Cardiovascular", warning: "High humidity can increase cardiovascular strain.", recommendation: "Stay hydrated and avoid midday exertion." },
+      { condition: "Asthma / COPD", warning: "Air quality may drop during peak traffic hours.", recommendation: "Carry rescue inhaler at all times." }
+    ],
+    generalTravelerRisks: [
+      { risk: "Water-borne pathogens", preventativeAction: "Drink only bottled or boiled water. Avoid ice." },
+      { risk: "Mosquito-borne illnesses", preventativeAction: "Use DEET and wear long sleeves at dusk." }
+    ],
+    recommendedVaccines: ["Hepatitis A", "Typhoid", "Routine vaccines"]
+  }
+});
+
+export const generatePrepChecklist = async (destination, dates) => {
+  const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
+  if (!apiKey) return generateMockPrepChecklist();
+
+  const prompt = `
+    Create a detailed travel health, weather, and packing advisory for a trip to ${destination} during ${dates}.
+    Return EXACTLY a valid JSON object matching this schema:
+    {
+      "weatherSummary": {
+        "expectedConditions": "String description of weather",
+        "seasonRisk": "String describing specific seasonal risks"
+      },
+      "packingAndFabrics": {
+        "recommendedMaterials": ["Array", "of", "strings"],
+        "avoidMaterials": ["Array", "of", "strings"],
+        "essentialGear": [
+          { "item": "Gear name", "checked": false }
+        ]
+      },
+      "documentation": {
+        "requirements": [
+          { "item": "Doc name", "notes": "Details", "checked": false }
+        ]
+      },
+      "healthAndMedicalAdvisories": {
+        "highRiskConditions": [
+          { "condition": "Condition name", "warning": "Warning text", "recommendation": "Rec text" }
+        ],
+        "generalTravelerRisks": [
+          { "risk": "Risk name", "preventativeAction": "Action text" }
+        ],
+        "recommendedVaccines": ["Array", "of", "vaccines"]
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    });
+    if (!response.ok) throw new Error('API Request Failed');
+    const data = await response.json();
+    let text = data.candidates[0].content.parts[0].text;
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    return JSON.parse(text);
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+    return generateMockPrepChecklist();
+  }
+};
+
 export default {
   generateAIPlan,
-  generateFullTrip
+  generateFullTrip,
+  generatePrepChecklist
 };

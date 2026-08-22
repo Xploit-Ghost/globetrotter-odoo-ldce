@@ -4,7 +4,8 @@ import { useTrips } from '../context/TripsContext';
 import { 
   Wallet, Map, CreditCard, MoreVertical, Plane, Train, 
   Car, Edit2, List, Grid, Plus, Trash2, Image as ImageIcon,
-  Sparkles, Activity, CheckCircle, AlertTriangle
+  Sparkles, Activity, CheckCircle, AlertTriangle, ShieldAlert,
+  Sun, CloudRain, Thermometer, CheckSquare, Square
 } from 'lucide-react';
 import aiPlannerService from '../services/aiPlannerService';
 import './TripDetails.css';
@@ -50,6 +51,9 @@ const TripDetails = () => {
   const [aiConfig, setAiConfig] = useState({ duration: 3, pace: 'Balanced', vibes: [] });
   const [isGenerating, setIsGenerating] = useState(false);
 
+  const [customGear, setCustomGear] = useState('');
+  const [customDoc, setCustomDoc] = useState('');
+
   const bannerInputRef = useRef(null);
   const expenseImageRef = useRef(null);
 
@@ -90,6 +94,38 @@ const TripDetails = () => {
     setActivities([...activities, ...plan.activities.map(a => ({ ...a, stopId: activeStop.id }))]);
     setIsGenerating(false);
     setShowAIModal(false);
+  };
+
+  const handleGeneratePrep = async () => {
+    const destination = trip.destination || (trip.stops && trip.stops[0] ? trip.stops[0].city : trip.title);
+    const dates = trip.dates || (trip.stops && trip.stops[0] ? trip.stops[0].dates : `${trip.days} Days`);
+    const checklist = await aiPlannerService.generatePrepChecklist(destination, dates);
+    const updated = { ...trip, prepChecklist: checklist };
+    updateTrip(updated);
+  };
+
+  const togglePrepItem = (type, index) => {
+    if (!trip.prepChecklist) return;
+    const checklist = JSON.parse(JSON.stringify(trip.prepChecklist));
+    if (type === 'gear') {
+      checklist.packingAndFabrics.essentialGear[index].checked = !checklist.packingAndFabrics.essentialGear[index].checked;
+    } else if (type === 'doc') {
+      checklist.documentation.requirements[index].checked = !checklist.documentation.requirements[index].checked;
+    }
+    updateTrip({ ...trip, prepChecklist: checklist });
+  };
+
+  const handleAddCustomPrep = (type) => {
+    if (!trip.prepChecklist) return;
+    const checklist = JSON.parse(JSON.stringify(trip.prepChecklist));
+    if (type === 'gear' && customGear.trim()) {
+      checklist.packingAndFabrics.essentialGear.push({ item: customGear.trim(), checked: false });
+      setCustomGear('');
+    } else if (type === 'doc' && customDoc.trim()) {
+      checklist.documentation.requirements.push({ item: customDoc.trim(), notes: 'Custom item', checked: false });
+      setCustomDoc('');
+    }
+    updateTrip({ ...trip, prepChecklist: checklist });
   };
 
   const allocated = 500000;
@@ -155,6 +191,9 @@ const TripDetails = () => {
         </button>
         <button className={`workspace-tab ${activeTab === 'budget' ? 'active' : ''}`} onClick={() => setActiveTab('budget')}>
           💳 Live Trip Budget
+        </button>
+        <button className={`workspace-tab ${activeTab === 'prep' ? 'active' : ''}`} onClick={() => setActiveTab('prep')}>
+          📋 Prep & Health
         </button>
       </div>
 
@@ -320,6 +359,115 @@ const TripDetails = () => {
               </table>
             </div>
           </div>
+        </div>
+      )}
+
+      {activeTab === 'prep' && (
+        <div className="prep-workspace" style={{ padding: '24px 0' }}>
+          {!trip.prepChecklist ? (
+            <div className="empty-state-layered glass-panel">
+              <ShieldAlert size={48} className="text-primary mb-4" />
+              <h3 className="mb-2">No Health & Prep Advisory Found</h3>
+              <p className="text-secondary mb-6">Generate AI-driven weather predictions, packing lists, and medical advisories for this trip.</p>
+              <button className="btn btn-primary glowing-pill" onClick={handleGeneratePrep}>
+                <Sparkles size={18} /> Generate AI Health & Packing Advisory
+              </button>
+            </div>
+          ) : (
+            <div className="prep-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+              <div className="prep-col">
+                <div className="glass-panel" style={{ padding: '24px', marginBottom: '24px' }}>
+                  <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}><Thermometer size={20} className="text-primary" /> Weather & Fabrics</h3>
+                  <p className="text-secondary mb-4">{trip.prepChecklist.weatherSummary.expectedConditions}</p>
+                  <div className="alert-badge warning mb-4" style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '12px', background: 'rgba(245,158,11,0.1)', color: '#d97706', borderRadius: '12px' }}>
+                    <AlertTriangle size={16} /> <span>{trip.prepChecklist.weatherSummary.seasonRisk}</span>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h5 className="mb-2">Recommended Materials:</h5>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                      {trip.prepChecklist.packingAndFabrics.recommendedMaterials.map((m, i) => (
+                        <span key={i} className="prep-pill success" style={{ background: 'rgba(16,185,129,0.1)', color: '#059669', padding: '4px 12px', borderRadius: '12px', fontSize: '0.85rem' }}>{m}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <h5 className="mb-2">Avoid:</h5>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                      {trip.prepChecklist.packingAndFabrics.avoidMaterials.map((m, i) => (
+                        <span key={i} className="prep-pill danger" style={{ background: 'rgba(239,68,68,0.1)', color: '#dc2626', padding: '4px 12px', borderRadius: '12px', fontSize: '0.85rem' }}>{m}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass-panel" style={{ padding: '24px' }}>
+                  <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}><CheckSquare size={20} className="text-primary" /> Smart Packing Checklist</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {trip.prepChecklist.packingAndFabrics.essentialGear.map((gear, i) => (
+                      <div key={i} className="checklist-item" onClick={() => togglePrepItem('gear', i)} style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'background 0.2s' }} onMouseOver={e => e.currentTarget.style.background='rgba(0,0,0,0.05)'} onMouseOut={e => e.currentTarget.style.background='transparent'}>
+                        {gear.checked ? <CheckSquare size={18} color="#10b981" /> : <Square size={18} color="var(--text-secondary)" />}
+                        <span style={{ textDecoration: gear.checked ? 'line-through' : 'none', color: gear.checked ? 'var(--text-secondary)' : 'inherit' }}>{gear.item}</span>
+                      </div>
+                    ))}
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                      <input type="text" className="form-input" style={{ flex: 1, padding: '8px 12px' }} placeholder="Add custom gear..." value={customGear} onChange={e => setCustomGear(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleAddCustomPrep('gear')} />
+                      <button className="btn-icon" style={{ background: 'var(--primary)', color: 'white', borderRadius: '8px' }} onClick={() => handleAddCustomPrep('gear')}><Plus size={18} /></button>
+                    </div>
+                  </div>
+                  
+                  <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '32px', marginBottom: '16px' }}><CheckSquare size={20} className="text-primary" /> Documentation</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {trip.prepChecklist.documentation.requirements.map((doc, i) => (
+                      <div key={i} className="checklist-item" onClick={() => togglePrepItem('doc', i)} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'background 0.2s' }} onMouseOver={e => e.currentTarget.style.background='rgba(0,0,0,0.05)'} onMouseOut={e => e.currentTarget.style.background='transparent'}>
+                        <div style={{ marginTop: '2px' }}>
+                          {doc.checked ? <CheckSquare size={18} color="#10b981" /> : <Square size={18} color="var(--text-secondary)" />}
+                        </div>
+                        <div>
+                          <span style={{ textDecoration: doc.checked ? 'line-through' : 'none', color: doc.checked ? 'var(--text-secondary)' : 'inherit', display: 'block', fontWeight: '500' }}>{doc.item}</span>
+                          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{doc.notes}</span>
+                        </div>
+                      </div>
+                    ))}
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                      <input type="text" className="form-input" style={{ flex: 1, padding: '8px 12px' }} placeholder="Add custom doc..." value={customDoc} onChange={e => setCustomDoc(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleAddCustomPrep('doc')} />
+                      <button className="btn-icon" style={{ background: 'var(--primary)', color: 'white', borderRadius: '8px' }} onClick={() => handleAddCustomPrep('doc')}><Plus size={18} /></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="prep-col">
+                <div className="glass-panel health-warnings" style={{ padding: '24px' }}>
+                  <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}><ShieldAlert size={20} color="#ef4444" /> Health & Medical Advisories</h3>
+                  
+                  <h4 style={{ color: '#ef4444', marginBottom: '12px', fontSize: '1.1rem' }}>High-Risk Conditions (Consult Physician)</h4>
+                  {trip.prepChecklist.healthAndMedicalAdvisories.highRiskConditions.map((cond, i) => (
+                    <div key={i} className="danger-alert-card" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', padding: '16px', borderRadius: '12px', marginBottom: '16px' }}>
+                      <strong style={{ color: '#ef4444', display: 'block', marginBottom: '4px' }}>{cond.condition}</strong>
+                      <p style={{ fontSize: '0.9rem', marginBottom: '8px', color: 'var(--text-primary)' }}>{cond.warning}</p>
+                      <div style={{ fontSize: '0.85rem', color: '#b91c1c', fontWeight: '500', background: 'rgba(255,255,255,0.5)', padding: '6px 12px', borderRadius: '6px' }}>Action: {cond.recommendation}</div>
+                    </div>
+                  ))}
+
+                  <h4 style={{ color: '#f59e0b', marginTop: '32px', marginBottom: '12px', fontSize: '1.1rem' }}>General Traveler Risks</h4>
+                  {trip.prepChecklist.healthAndMedicalAdvisories.generalTravelerRisks.map((risk, i) => (
+                    <div key={i} className="warning-alert-card" style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', padding: '16px', borderRadius: '12px', marginBottom: '12px' }}>
+                      <strong style={{ color: '#d97706', display: 'block', marginBottom: '4px' }}>{risk.risk}</strong>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>{risk.preventativeAction}</p>
+                    </div>
+                  ))}
+
+                  <h4 style={{ color: 'var(--primary)', marginTop: '32px', marginBottom: '12px', fontSize: '1.1rem' }}>Recommended Vaccines</h4>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {trip.prepChecklist.healthAndMedicalAdvisories.recommendedVaccines.map((v, i) => (
+                      <span key={i} style={{ background: 'rgba(14,165,233,0.1)', color: 'var(--primary)', padding: '6px 16px', borderRadius: '20px', fontSize: '0.9rem', fontWeight: '500' }}>{v}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
