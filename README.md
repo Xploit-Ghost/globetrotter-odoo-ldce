@@ -18,7 +18,7 @@ and predicting health &amp; packing needs based on destination climate and medic
 [![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org)
 [![SQLite](https://img.shields.io/badge/SQLite-Database-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Gemini API](https://img.shields.io/badge/Gemini_1.5_Flash-AI_Engine-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev)
+[![Gemini API](https://img.shields.io/badge/Gemini_2.5_Flash-AI_Engine-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](#license)
 [![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge)](#)
 
@@ -109,7 +109,7 @@ A single root-level class toggle (`dark-theme` / `light-theme` on `<html>`) flip
 ### ✨ AI-Powered Trip Planner (AI Mode)
 
 1. **Input Studio** — Destination, dates, total budget, group type, pace (`Relaxed` / `Balanced` / `Action-Packed`), vibes (`Culture` `Food` `Nature` `Nightlife`)
-2. **Structured Prompt Engineering** — backend forces Gemini 1.5 Flash to return a schema-perfect JSON object matching the DB shape
+2. **Structured Prompt Engineering** — backend forces Gemini 2.5 Flash to return a schema-perfect JSON object matching the DB shape
 3. **Smart Math** — activity count auto-scales with pace; budget is organically distributed across items
 4. **Live animated preview** before saving
 5. **Bulletproof Mock Generator** — if the API fails or you're offline, fallback data renders seamlessly. **The app never crashes.**
@@ -166,7 +166,7 @@ A single root-level class toggle (`dark-theme` / `light-theme` on `<html>`) flip
 | **Icons** | `lucide-react` |
 | **Server Runtime** | Node.js + Express.js |
 | **Database** | SQLite (`database.sqlite`) |
-| **AI Engine** | Google Gemini 1.5 Flash API |
+| **AI Engine** | Google Gemini 2.5 Flash API |
 
 </div>
 
@@ -331,7 +331,7 @@ This means you can demo the entire app — including "AI" generation — with **
 |---|:---:|---|---|
 | `PORT` | ✅ | Express server port | `5000` |
 | `DATABASE_PATH` | ✅ | Path to SQLite file | `./database.sqlite` |
-| `GEMINI_API_KEY` | ⛔ Optional | Google Gemini 1.5 Flash key — omit to force offline mock mode | `AIza...` |
+| `GEMINI_API_KEY` | ⛔ Optional | Google Gemini 2.5 Flash key — omit to force offline mock mode | `AIza...` |
 | `JWT_SECRET` | ✅ | Secret for signing auth tokens | `super-secret-string` |
 | `CLIENT_URL` | ✅ | Frontend origin for CORS | `http://localhost:3000` |
 | `DEFAULT_CURRENCY` | ⛔ Optional | Default currency symbol | `INR` |
