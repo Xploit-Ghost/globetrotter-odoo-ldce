@@ -42,7 +42,7 @@
   height: 140px;
   border-radius: 50%;
   padding: 4px;
-  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  background: linear-gradient(135deg, var(--btn-from), var(--btn-to));
   position: relative;
 }
 
@@ -196,8 +196,8 @@
 }
 
 input:checked + .slider {
-  background: linear-gradient(135deg, #00f2fe, #4facfe);
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+  background: linear-gradient(135deg, var(--btn-from), var(--btn-to));
+  box-shadow: 0 0 10px var(--primary-glow);
 }
 
 input:checked + .slider:before {

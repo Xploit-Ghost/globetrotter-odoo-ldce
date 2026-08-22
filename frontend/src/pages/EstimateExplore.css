@@ -39,8 +39,8 @@
 
 .total-days-badge {
   display: inline-block;
-  background: rgba(0, 242, 254, 0.15);
-  color: #00f2fe;
+  background: var(--primary-transparent);
+  color: var(--primary);
   padding: 4px 12px;
   border-radius: 12px;
   font-size: 0.85rem;
@@ -239,8 +239,8 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(0, 242, 254, 0.15);
-  color: #00f2fe;
+  background: var(--primary-transparent);
+  color: var(--primary);
   border-radius: 20px;
   font-weight: 600;
   align-self: flex-start;

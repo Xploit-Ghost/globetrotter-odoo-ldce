@@ -43,14 +43,14 @@
 }
 
 .logo-icon.glow-icon {
-  color: #00f2fe;
-  filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.6));
+  color: var(--primary);
+  filter: drop-shadow(0 0 8px var(--primary));
 }
 
 .nav-logo .logo-text {
   font-size: 1.5rem;
   font-weight: 800;
-  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(to right, var(--secondary) 0%, var(--primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
@@ -114,12 +114,16 @@
 }
 
 .glowing-pill {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, var(--btn-from) 0%, var(--btn-to) 100%);
   border-radius: 50px;
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+  box-shadow: var(--btn-shadow);
   color: #0b0e17 !important;
   font-weight: 700;
   border: none;
+}
+
+[data-theme="light"] .glowing-pill {
+  color: #ffffff !important;
 }
 
 .glowing-pill:hover {

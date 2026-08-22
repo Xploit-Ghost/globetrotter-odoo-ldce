@@ -21,6 +21,11 @@
   border: 1px solid var(--surface-border);
 }
 
+[data-theme="light"] .hero-section {
+  background: var(--surface);
+  box-shadow: var(--glass-shadow);
+}
+
 .hero-title {
   font-size: 3rem;
   font-weight: 800;
