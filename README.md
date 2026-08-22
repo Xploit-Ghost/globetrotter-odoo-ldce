@@ -32,7 +32,7 @@ and predicting health &amp; packing needs based on destination climate and medic
 
 ---
 
-## ✨ Overview
+##  Overview
 
 GlobeTrotter isn't a form that saves rows to a database — it's a **proactive AI travel assistant**. Tell it where, when, and how much, and it builds a day-by-day itinerary, tracks every rupee/dollar/euro against your plan in real time, scores how "ready" your trip actually is, and tells you what to pack and what to worry about medically before you land.
 
