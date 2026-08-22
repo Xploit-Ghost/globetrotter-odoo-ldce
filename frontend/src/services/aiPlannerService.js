@@ -168,6 +168,7 @@ export const generateFullTrip = async (destination, dates, budget, currency, tra
     text = text.replace(/```json/g, '').replace(/```/g, '').trim();
     const parsed = JSON.parse(text);
     
+    const stopId = `stop-${Date.now()}`;
     return {
       id: `trip-${Date.now()}`,
       title: parsed.title || `${parsed.days}-Day ${destination} Trip`,
@@ -178,7 +179,7 @@ export const generateFullTrip = async (destination, dates, budget, currency, tra
       days: parsed.days || 3,
       stops: [
         {
-          id: `stop-${Date.now()}`,
+          id: stopId,
           city: destination,
           dates: dates,
           days: parsed.days || 3,
@@ -190,6 +191,7 @@ export const generateFullTrip = async (destination, dates, budget, currency, tra
       activities: (parsed.activities || []).map(a => ({
         ...a,
         id: `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        stopId: stopId,
         actualCost: 0
       }))
     };
@@ -206,11 +208,12 @@ const generateMockFullTrip = (destination, dates, budget, currency, travelers, p
       const times = ['MORNING', 'AFTERNOON', 'EVENING'];
       const categories = ['Activities', 'Food & Dining', 'Miscellaneous'];
       const days = 5;
-      
+      const stopId = `stop-${Date.now()}`;
       for (let i = 1; i <= days; i++) {
         for (let j = 0; j < (pace === 'Action-Packed' ? 3 : pace === 'Balanced' ? 2 : 1); j++) {
           generatedActivities.push({
             id: `ai-${Date.now()}-${i}-${j}`,
+            stopId: stopId,
             date: `Day ${i}`,
             time: times[j % 3],
             title: `Explore ${vibes[j % vibes.length] || 'Local'} Highlights`,
@@ -233,7 +236,7 @@ const generateMockFullTrip = (destination, dates, budget, currency, travelers, p
         days: days,
         stops: [
           {
-            id: `stop-${Date.now()}`,
+            id: stopId,
             city: destination,
             dates: dates,
             days: days,
