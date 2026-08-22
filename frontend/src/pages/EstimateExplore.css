@@ -1,0 +1,247 @@
+.estimate-container {
+  padding-bottom: 60px;
+}
+
+.estimate-header {
+  margin-bottom: 40px;
+}
+
+.estimate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .estimate-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.estimate-form-panel, .estimate-result-panel {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.estimate-form-panel h3, .estimate-result-panel h3 {
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.total-days-badge {
+  display: inline-block;
+  background: rgba(0, 242, 254, 0.15);
+  color: #00f2fe;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+.pl-10 { padding-left: 44px; }
+.w-100 { width: 100%; }
+
+.travel-modes {
+  display: flex;
+  gap: 12px;
+}
+
+.mode-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.mode-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.mode-btn.active {
+  background: rgba(79, 70, 229, 0.2);
+  border-color: var(--primary);
+  color: white;
+}
+
+.mode-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.empty-estimate {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.empty-estimate .empty-icon {
+  margin-bottom: 16px;
+  color: rgba(255,255,255,0.2);
+}
+
+.estimate-breakdown {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 1.1rem;
+}
+
+.cost-row span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 16px 0;
+}
+
+.total-row {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.estimate-actions {
+  margin-top: auto;
+  padding-top: 32px;
+}
+
+/* Map Modal */
+.map-modal {
+  width: 90%;
+  max-width: 1000px;
+  height: 80vh;
+  padding: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.map-modal-content {
+  flex: 1;
+  display: flex;
+  gap: 24px;
+  height: 100%;
+}
+
+.map-container {
+  flex: 2;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.map-sidebar {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-cities {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.city-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+.city h4 {
+  font-size: 1.2rem;
+  margin-top: 4px;
+}
+
+.s-stat {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.s-stat span {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.s-stat strong {
+  font-size: 1.2rem;
+}
+
+.mode-badge {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 242, 254, 0.15);
+  color: #00f2fe;
+  border-radius: 20px;
+  font-weight: 600;
+  align-self: flex-start;
+}
