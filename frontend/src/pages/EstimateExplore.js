@@ -274,10 +274,10 @@ const EstimateExplore = () => {
           <div className="map-modal glass-panel" style={{ position: 'relative' }}>
             <button 
               onClick={handleSaveAndReturn}
-              className="absolute top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-stone-200 dark:border-white/10 rounded-xl text-stone-800 dark:text-white shadow-lg hover:scale-105 transition-all"
-              style={{ position: 'absolute', top: '24px', left: '24px', zIndex: 1000, borderRadius: '12px', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', border: 'none' }}
+              className="btn btn-secondary"
+              style={{ position: 'absolute', top: '24px', left: '24px', zIndex: 1000, borderRadius: '12px', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 'bold' }}
             >
-              <span>← Save & Return to Itinerary</span>
+              <span>← Save & Return</span>
             </button>
             <button className="close-btn" onClick={() => setShowMapModal(false)}>×</button>
             <div className="map-modal-content">
