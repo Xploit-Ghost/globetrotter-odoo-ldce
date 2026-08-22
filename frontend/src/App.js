@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import SettingsProfile from './pages/SettingsProfile';
 import TripDetails from './pages/TripDetails';
 import EstimateExplore from './pages/EstimateExplore';
+import AiPlanner from './pages/AiPlanner';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { TripsProvider } from './context/TripsContext';
@@ -52,6 +53,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Explore />
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/ai-planner" 
+                element={
+                  <PrivateRoute>
+                    <AiPlanner />
                   </PrivateRoute>
                 } 
               />

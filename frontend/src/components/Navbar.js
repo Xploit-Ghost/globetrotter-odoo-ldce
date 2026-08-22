@@ -32,6 +32,7 @@ const Navbar = () => {
               <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>{t('dashboard')}</Link>
               <Link to="/my-trips" className={`nav-link ${location.pathname === '/my-trips' ? 'active' : ''}`}>My Trips</Link>
               <Link to="/explore" className={`nav-link ${location.pathname === '/explore' ? 'active' : ''}`}>Explore</Link>
+              <Link to="/ai-planner" className={`nav-link ${location.pathname === '/ai-planner' ? 'active' : ''}`} style={{ fontWeight: 'bold', color: 'var(--primary)' }}>✨ AI Mode</Link>
               <Link to="/estimate" className={`nav-link ${location.pathname === '/estimate' ? 'active' : ''}`}>{t('estimateExplore')}</Link>
               <Link to="/profile" className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`} style={{ display: 'flex', alignItems: 'center' }}>
                 <Settings size={20} />
