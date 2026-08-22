@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Calendar, MapPin, DollarSign, ArrowRight, Search, Filter, Luggage } from 'lucide-react';
 import { useTrips } from '../context/TripsContext';
