@@ -85,6 +85,23 @@
   color: white;
 }
 
+[data-theme="light"] .mode-btn {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: var(--text-secondary);
+}
+
+[data-theme="light"] .mode-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  color: var(--primary);
+}
+
+[data-theme="light"] .mode-btn.active {
+  background: rgba(194, 94, 78, 0.1);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
 .mode-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
