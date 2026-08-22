@@ -169,8 +169,8 @@ export const generateFullTrip = async (destination, dates, budget, currency, tra
     const parsed = JSON.parse(text);
     
     return {
-      id: \`trip-\${Date.now()}\`,
-      title: parsed.title || \`\${parsed.days}-Day \${destination} Trip\`,
+      id: `trip-${Date.now()}`,
+      title: parsed.title || `${parsed.days}-Day ${destination} Trip`,
       category: parsed.category || 'Trending',
       image: parsed.image || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80',
       progress: 0,
@@ -178,7 +178,7 @@ export const generateFullTrip = async (destination, dates, budget, currency, tra
       days: parsed.days || 3,
       stops: [
         {
-          id: \`stop-\${Date.now()}\`,
+          id: `stop-${Date.now()}`,
           city: destination,
           dates: dates,
           days: parsed.days || 3,
@@ -189,7 +189,7 @@ export const generateFullTrip = async (destination, dates, budget, currency, tra
       ],
       activities: (parsed.activities || []).map(a => ({
         ...a,
-        id: \`ai-\${Date.now()}-\${Math.random().toString(36).substr(2, 9)}\`,
+        id: `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         actualCost: 0
       }))
     };
@@ -210,10 +210,10 @@ const generateMockFullTrip = (destination, dates, budget, currency, travelers, p
       for (let i = 1; i <= days; i++) {
         for (let j = 0; j < (pace === 'Action-Packed' ? 3 : pace === 'Balanced' ? 2 : 1); j++) {
           generatedActivities.push({
-            id: \`ai-\${Date.now()}-\${i}-\${j}\`,
-            date: \`Day \${i}\`,
+            id: `ai-${Date.now()}-${i}-${j}`,
+            date: `Day ${i}`,
             time: times[j % 3],
-            title: \`Explore \${vibes[j % vibes.length] || 'Local'} Highlights\`,
+            title: `Explore ${vibes[j % vibes.length] || 'Local'} Highlights`,
             category: categories[j % 3],
             estimatedCost: Math.floor(Math.random() * (budget / (days * 3))) + 10,
             actualCost: 0,
@@ -224,8 +224,8 @@ const generateMockFullTrip = (destination, dates, budget, currency, travelers, p
       }
       
       resolve({
-        id: \`trip-\${Date.now()}\`,
-        title: \`\${days}-Day \${destination} Getaway\`,
+        id: `trip-${Date.now()}`,
+        title: `${days}-Day ${destination} Getaway`,
         category: 'Trending',
         image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=80',
         progress: 0,
@@ -233,7 +233,7 @@ const generateMockFullTrip = (destination, dates, budget, currency, travelers, p
         days: days,
         stops: [
           {
-            id: \`stop-\${Date.now()}\`,
+            id: `stop-${Date.now()}`,
             city: destination,
             dates: dates,
             days: days,
