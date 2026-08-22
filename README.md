@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌍 GlobeTrotter
+# GlobeTrotter
 
 ### Your Intelligent, End-to-End Travel Companion
 
@@ -40,7 +40,7 @@ Built for speed, resilience, and delight: **optimistic offline-first state**, a 
 
 <br/>
 
-## 🧭 Table of Contents
+##  Table of Contents
 
 - [Feature Showcase](#-feature-showcase)
 - [Screenshots](#-screenshots)
@@ -56,25 +56,25 @@ Built for speed, resilience, and delight: **optimistic offline-first state**, a 
 
 ---
 
-## 🚀 Feature Showcase
+##  Feature Showcase
 
-### 🎨 Dual-Theme Aesthetic Engine
+###  Dual-Theme Aesthetic Engine
 
 | Mode | Canvas | Surface | Character |
 |---|---|---|---|
-| ☀️ **Light — Travel Journal** | `#FAF7F5` warm cream | Solid cards, soft shadows | High-contrast terracotta & teal accents, editorial feel |
-| 🌑 **Dark — Obsidian Glass** | `#0B0F19` deep obsidian | Frosted glassmorphism, `backdrop-blur` | Cyan/indigo ambient neon glow, translucent slate cards |
+|  **Light — Travel Journal** | `#FAF7F5` warm cream | Solid cards, soft shadows | High-contrast terracotta & teal accents, editorial feel |
+|  **Dark — Obsidian Glass** | `#0B0F19` deep obsidian | Frosted glassmorphism, `backdrop-blur` | Cyan/indigo ambient neon glow, translucent slate cards |
 
 A single root-level class toggle (`dark-theme` / `light-theme` on `<html>`) flips an entire CSS-variable design-token system (`--surface`, `--text-primary`, `--glass-border`, …) — **zero flash, zero class conflicts, mathematically instant.**
 
 <br/>
 
-### 🏠 Interactive Dashboard
+###  Interactive Dashboard
 
-- 👋 Dynamic greeting — *"Wanderlust calls..."*
-- 🎯 Editable **Annual Budget gauge** — target goal, live spend %, color-coded thresholds (green → amber → red)
-- 🎠 Recent trips carousel with live status badges — `Upcoming` · `Completed` · `Past`
-- 🗑️ Safety-confirmed trip deletion with instant global state sync
+-  Dynamic greeting — *"Wanderlust calls..."*
+-  Editable **Annual Budget gauge** — target goal, live spend %, color-coded thresholds (green → amber → red)
+-  Recent trips carousel with live status badges — `Upcoming` · `Completed` · `Past`
+-  Safety-confirmed trip deletion with instant global state sync
 
 <br/>
 
@@ -97,7 +97,7 @@ A single root-level class toggle (`dark-theme` / `light-theme` on `<html>`) flip
 
 <br/>
 
-### 💳 Planned vs. Actual Budget Engine
+###  Planned vs. Actual Budget Engine
 
 - Itemized expense manager, multi-currency (`₹ $ € £`)
 - **Live variance engine** — `Planned − Actual` per item, with over-budget day alerts
@@ -106,7 +106,7 @@ A single root-level class toggle (`dark-theme` / `light-theme` on `<html>`) flip
 
 <br/>
 
-### ✨ AI-Powered Trip Planner (AI Mode)
+###  AI-Powered Trip Planner (AI Mode)
 
 1. **Input Studio** — Destination, dates, total budget, group type, pace (`Relaxed` / `Balanced` / `Action-Packed`), vibes (`Culture` `Food` `Nature` `Nightlife`)
 2. **Structured Prompt Engineering** — backend forces Gemini 2.5 Flash to return a schema-perfect JSON object matching the DB shape
@@ -118,14 +118,14 @@ A single root-level class toggle (`dark-theme` / `light-theme` on `<html>`) flip
 
 ### 📋 Health Advisory & Smart Packing (Prep & Health Tab)
 
-- 🌦️ **Weather & Fabric Intelligence** — climate prediction + fabric recommendations (*"Gore-Tex"* ✅) and warnings (*"avoid heavy denim"* ❌)
-- 🎒 **Interactive Smart Packing** — AI checklist + custom item injection, persisted to `localStorage`
-- ⚠️ **Medical Alerts** — high-risk contraindications (altitude for cardiac patients, air quality for asthma), endemic risk advisories, vaccine checklist
-- 🔄 **On-demand generation** — older trips get an empty state with a **"✨ Generate AI Health Advisory"** button
+-  **Weather & Fabric Intelligence** — climate prediction + fabric recommendations (*"Gore-Tex"* ✅) and warnings (*"avoid heavy denim"* ❌)
+-  **Interactive Smart Packing** — AI checklist + custom item injection, persisted to `localStorage`
+-  **Medical Alerts** — high-risk contraindications (altitude for cardiac patients, air quality for asthma), endemic risk advisories, vaccine checklist
+-  **On-demand generation** — older trips get an empty state with a **"✨ Generate AI Health Advisory"** button
 
 <br/>
 
-### 🌍 Explore & Estimate
+###  Explore & Estimate
 
 - 25+ curated global cities with high-res photography, cost estimates, rating badges
 - Filters: `Trending` · `Budget Friendly` · `Adventure` · `Couples`
@@ -135,7 +135,7 @@ A single root-level class toggle (`dark-theme` / `light-theme` on `<html>`) flip
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 <div align="center">
 
@@ -147,13 +147,13 @@ A single root-level class toggle (`dark-theme` / `light-theme` on `<html>`) flip
 | **Health & Packing Tab** | **Light Mode — Journal Aesthetic** |
 | _`docs/screenshots/prep-health.png`_ | _`docs/screenshots/light-mode.png`_ |
 
-> 📌 *Replace the paths above with real captures/GIFs before publishing. Recommended: 16:9, WebP or GIF ≤ 5MB.*
+>  *Replace the paths above with real captures/GIFs before publishing. Recommended: 16:9, WebP or GIF ≤ 5MB.*
 
 </div>
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 <div align="center">
 
@@ -174,7 +174,7 @@ A single root-level class toggle (`dark-theme` / `light-theme` on `<html>`) flip
 
 ---
 
-## 🏗️ Architecture & Project Structure
+##  Architecture & Project Structure
 
 ```
 globetrotter/
@@ -299,7 +299,7 @@ cd server && npm run dev
 npm start
 ```
 
-Visit **`http://localhost:3000`** 🎉
+Visit **`http://localhost:3000`** 
 
 <br/>
 
@@ -320,7 +320,7 @@ This means you can demo the entire app — including "AI" generation — with **
 
 ---
 
-## 🔐 Environment Variables
+##  Environment Variables
 
 <details>
 <summary><strong>Click to expand full <code>.env</code> reference</strong></summary>
@@ -350,10 +350,10 @@ DEFAULT_CURRENCY=INR
 
 ---
 
-## 📡 API Reference
+##  API Reference
 
 <details>
-<summary><strong>🔑 Auth</strong></summary>
+<summary><strong> Auth</strong></summary>
 
 <br/>
 
@@ -374,7 +374,7 @@ DEFAULT_CURRENCY=INR
 </details>
 
 <details>
-<summary><strong>🧳 Trips</strong></summary>
+<summary><strong> Trips</strong></summary>
 
 <br/>
 
@@ -389,7 +389,7 @@ DEFAULT_CURRENCY=INR
 </details>
 
 <details>
-<summary><strong>💰 Budget Engine</strong></summary>
+<summary><strong> Budget Engine</strong></summary>
 
 <br/>
 
@@ -415,7 +415,7 @@ Response:
 </details>
 
 <details>
-<summary><strong>✨ AI Itinerary Generation</strong></summary>
+<summary><strong> AI Itinerary Generation</strong></summary>
 
 <br/>
 
@@ -485,7 +485,7 @@ Response:
 
 ---
 
-## 🎨 Theming Engine
+##  Theming Engine
 
 ```css
 /* variables.css — excerpt */
@@ -512,7 +512,7 @@ One class swap on `<html>` → the entire design system re-renders instantly. No
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 - [ ] Multi-user collaborative trip editing
 - [ ] Public shareable itinerary links
@@ -522,7 +522,7 @@ One class swap on `<html>` → the entire design system re-renders instantly. No
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 <details>
 <summary><strong>Contributor guidelines</strong></summary>
@@ -538,10 +538,6 @@ One class swap on `<html>` → the entire design system re-renders instantly. No
 </details>
 
 ---
-
-## 📄 License
-
-Distributed under the **MIT License**. See `LICENSE` for details.
 
 <br/>
 
