@@ -24,8 +24,14 @@ export const TripsProvider = ({ children }) => {
     localStorage.setItem('globetrotter_trips', JSON.stringify(updated));
   };
 
+  const deleteTrip = (tripId) => {
+    const updated = trips.filter(t => t.id !== tripId);
+    setTrips(updated);
+    localStorage.setItem('globetrotter_trips', JSON.stringify(updated));
+  };
+
   return (
-    <TripsContext.Provider value={{ trips, setTrips, addTrip, updateTrip }}>
+    <TripsContext.Provider value={{ trips, setTrips, addTrip, updateTrip, deleteTrip }}>
       {children}
     </TripsContext.Provider>
   );

@@ -22,7 +22,7 @@ const initialActivities = [
 const TripDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { trips, updateTrip } = useTrips(); // Assume we can update trips, or just use local state for now
+  const { trips, updateTrip, deleteTrip } = useTrips(); 
   const trip = trips.find(t => String(t.id) === String(id));
   
   const [activeTab, setActiveTab] = useState('itinerary');
@@ -118,6 +118,19 @@ const TripDetails = () => {
           <h1 className="trip-title">{trip.title}</h1>
         </div>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <button 
+            className="btn-icon" 
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '10px', borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s' }}
+            title="Delete Trip"
+            onClick={() => {
+              if(window.confirm('Are you sure you want to permanently delete this trip?')) {
+                deleteTrip(trip.id);
+                navigate('/my-trips');
+              }
+            }}
+          >
+            <Trash2 size={18} />
+          </button>
           <button className="btn btn-primary glowing-pill" onClick={() => setShowAIModal(true)}>
             <Sparkles size={18} /> AI Auto-Plan Itinerary
           </button>

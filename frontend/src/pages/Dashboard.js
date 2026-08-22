@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Calendar, MapPin, DollarSign, ArrowRight, Search, Filter, Luggage } from 'lucide-react';
+import { Plus, Calendar, MapPin, DollarSign, ArrowRight, Search, Filter, Luggage, Trash2 } from 'lucide-react';
 import { useTrips } from '../context/TripsContext';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { trips, addTrip } = useTrips();
+  const { trips, addTrip, deleteTrip } = useTrips();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const bannerInputRef = useRef(null);
@@ -116,6 +116,20 @@ const Dashboard = () => {
                     <span className="dot" style={{ background: trip.status === 'Completed' ? '#10b981' : trip.status === 'Upcoming' ? '#f59e0b' : '#6b7280' }}></span> {trip.status}
                   </div>
                 </div>
+                <button 
+                  className="btn-icon" 
+                  style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(0,0,0,0.5)', color: 'white', borderRadius: '50%', padding: '8px', zIndex: 10 }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if(window.confirm('Are you sure you want to delete this trip?')) {
+                      deleteTrip(trip.id);
+                    }
+                  }}
+                  title="Delete Trip"
+                >
+                  <Trash2 size={18} color="#ef4444" />
+                </button>
               </div>
             </Link>
           ))}
