@@ -29,33 +29,45 @@
     url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop');
   --body-filter: blur(40px) brightness(0.6);
   --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  
+  --btn-from: #06b6d4;
+  --btn-to: #3b82f6;
+  --btn-hover-from: #22d3ee;
+  --btn-hover-to: #60a5fa;
+  --btn-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
 }
 
 [data-theme="light"] {
-  --primary: #C25E4E;
-  --primary-hover: #D97768;
-  --secondary: #E4A096;
-  --accent: #D97768;
+  --primary: #e11d48; /* rose-600 */
+  --primary-hover: #be123c; /* rose-700 */
+  --secondary: #f43f5e; /* rose-500 */
+  --accent: #e11d48;
   
-  --bg-gradient-start: #FDFBF7;
-  --bg-gradient-end: #F5F1EB;
+  --bg-gradient-start: #f5f5f4; /* stone-100 */
+  --bg-gradient-end: #f5f5f4;
   
-  --surface: #FFFFFF;
-  --surface-hover: #FAFAF9;
-  --surface-border: rgba(28, 25, 23, 0.08); /* crisp subtle border */
-  --surface-solid: #FFFFFF;
+  --surface: #ffffff; /* solid white */
+  --surface-hover: #fafaf9; /* stone-50 */
+  --surface-border: rgba(231, 229, 228, 0.9); /* stone-200/90 */
+  --surface-solid: #ffffff;
   
-  --text-primary: #1C1917; /* deep espresso */
-  --text-secondary: #78716C; /* warm gray */
+  --text-primary: #1c1917; /* stone-900 for high contrast */
+  --text-secondary: #57534e; /* stone-600 for subtitles */
   
-  --danger: #ef4444;
+  --danger: #e11d48;
   --success: #10b981;
   --warning: #f59e0b;
   
-  --body-bg-color: #FDFBF7; /* soft warm canvas */
+  --body-bg-color: #f5f5f4; /* stone-100 canvas */
   --body-bg-image: none;
   --body-filter: none;
-  --glass-shadow: 0 4px 20px rgba(28, 25, 23, 0.03);
+  --glass-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+  
+  --btn-from: #f43f5e;
+  --btn-to: #e11d48;
+  --btn-hover-from: #e11d48;
+  --btn-hover-to: #be123c;
+  --btn-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -172,14 +184,15 @@ button {
 }
 
 .btn-primary {
-  background: linear-gradient(to right, var(--primary), var(--secondary));
-  color: white;
-  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+  background: linear-gradient(to right, var(--btn-from), var(--btn-to));
+  color: white !important;
+  box-shadow: var(--btn-shadow);
+  border: none;
 }
 
 .btn-primary:hover {
+  background: linear-gradient(to right, var(--btn-hover-from), var(--btn-hover-to));
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
 }
 
 .btn-secondary {
